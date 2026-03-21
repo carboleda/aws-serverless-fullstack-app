@@ -1,0 +1,14 @@
+# functions
+getTransaction:
+  handler: backend/src/modules/transactions/handlers.get
+  events:
+    - httpApi:
+        path: "/transactions/{id}"
+        method: "get"
+
+getAllTransactions:
+  handler: backend/src/modules/transactions/handlers.getAll
+  events:
+    - httpApi:
+        path: "/transactions"
+        method: "get"

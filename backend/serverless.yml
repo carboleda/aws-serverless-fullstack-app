@@ -1,0 +1,28 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: carboleda
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: aws-serverless-fullstack-app
+
+stages:
+  default:
+    params:
+      tableName: "users-table-${sls:stage}"
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  # Uncomment to easily set up a custom domain. Read the docs for more details:
+  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
+  # domain: api.example.com
+  # iam: ${file(./iac/permissions/iam.yml)}
+  environment:
+    USERS_TABLE: ${param:tableName}
+
+functions: ${file(./iac/functions.yml)}
+
+# resources:
+# - ${file(./iac/resources/dynamodb.yml)}
+# - ${file(./iac/resources/cognito.yml)}
+
+plugins:
+  - serverless-offline
