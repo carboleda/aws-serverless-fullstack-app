@@ -1,0 +1,7 @@
+services:
+  sls-dynamodb:
+    image: amazon/dynamodb-local
+    hostname: sls-dynamodb
+    ports:
+      - "8000:8000"
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
