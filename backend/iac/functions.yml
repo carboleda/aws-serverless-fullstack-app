@@ -1,14 +1,21 @@
 # functions
+getAllTransactions:
+  handler: src/entrypoints/transactions/handlers.getAll
+  events:
+    - httpApi:
+        path: "/transactions"
+        method: "get"
+
 getTransaction:
-  handler: backend/src/modules/transactions/handlers.get
+  handler: src/entrypoints/transactions/handlers.get
   events:
     - httpApi:
         path: "/transactions/{id}"
         method: "get"
 
-getAllTransactions:
-  handler: backend/src/modules/transactions/handlers.getAll
+createTransaction:
+  handler: src/entrypoints/transactions/handlers.create
   events:
     - httpApi:
         path: "/transactions"
-        method: "get"
+        method: "post"

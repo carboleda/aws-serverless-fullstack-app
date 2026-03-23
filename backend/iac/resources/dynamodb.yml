@@ -1,13 +1,48 @@
 # resources:
 Resources:
-  UsersTable:
+  TransactionsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: type
+          AttributeType: S
+        - AttributeName: status
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: N
       KeySchema:
         - AttributeName: userId
           KeyType: HASH
+        - AttributeName: id
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: userIdTypeIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: type
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: userIdStatusIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: status
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: userIdCreatedAtIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
       BillingMode: PAY_PER_REQUEST
-      TableName: ${param:tableName}
+      TableName: ${param:transactionsTableName}

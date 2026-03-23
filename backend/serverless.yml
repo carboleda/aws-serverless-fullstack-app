@@ -2,11 +2,16 @@
 org: carboleda
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: aws-serverless-fullstack-app
+useDotenv: true
 
 stages:
   default:
     params:
-      tableName: "users-table-${sls:stage}"
+      transactionsTableName: "transactions-table"
+
+custom:
+  # "dynamodb" is used by the serverless-dynamodb-local plugin to configure DynamoDB Local.
+  dynamodb: ${file(./iac/custom/dynamodb.yml)}
 
 provider:
   name: aws
@@ -14,15 +19,19 @@ provider:
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
-  # iam: ${file(./iac/permissions/iam.yml)}
+  iam: ${file(./iac/permissions/iam.yml)}
   environment:
-    USERS_TABLE: ${param:tableName}
+    TRANSACTIONS_TABLE: ${param:transactionsTableName}
+    IS_OFFLINE: ${env:IS_OFFLINE, "false"}
+    DYNAMODB_LOCAL_REGION: ${env:DYNAMODB_LOCAL_REGION, ""}
+    DYNAMODB_LOCAL_ENDPOINT: ${env:DYNAMODB_LOCAL_ENDPOINT, ""}
 
 functions: ${file(./iac/functions.yml)}
 
-# resources:
-# - ${file(./iac/resources/dynamodb.yml)}
-# - ${file(./iac/resources/cognito.yml)}
+resources:
+  - ${file(./iac/resources/dynamodb.yml)}
+  # - ${file(./iac/resources/cognito.yml)}
 
 plugins:
+  - serverless-dynamodb-local
   - serverless-offline
