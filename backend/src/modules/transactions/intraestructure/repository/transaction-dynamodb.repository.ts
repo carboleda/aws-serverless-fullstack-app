@@ -4,7 +4,10 @@ import { TransactionRepository } from "@/modules/transactions/domain/ports/trans
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
 import { TransactionMapper } from "@/modules/transactions/intraestructure/mappers/transaction.mapper";
 import DynamoDBDataSource from "@/shared/database/dynamodb";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  PutCommand,
+  QueryCommand,
+} from "@aws-sdk/lib-dynamodb";
 
 @Injectable()
 export class TransactionDynamoRepository implements TransactionRepository {
@@ -46,7 +49,25 @@ export class TransactionDynamoRepository implements TransactionRepository {
     throw new Error("Method not implemented.");
   }
 
-  getAll(userId: string): Promise<TransactionModel[]> {
-    throw new Error("Method not implemented.");
+  async getAll(userId: string): Promise<TransactionModel[]> {
+    const command = new QueryCommand({
+      TableName: this.tableName,
+      KeyConditionExpression: "userId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": userId,
+      },
+    });
+
+    const client = this.dynamoDb.getConnection();
+    const response = await client.send(command);
+
+    if (!response.Items) {
+      return [];
+    }
+
+    return response.Items.map((item) => {
+      const entity = item as TransactionEntity & { id: string };
+      return TransactionMapper.toModel(entity, entity.id);
+    });
   }
 }
