@@ -25,4 +25,11 @@ updateTransaction:
   events:
     - httpApi:
         path: "/transactions/{id}"
-        method: "patch"
+        method: "put"
+
+deleteTransaction:
+  handler: src/entrypoints/transactions/handlers.remove
+  events:
+    - httpApi:
+        path: "/transactions/{id}"
+        method: "delete"

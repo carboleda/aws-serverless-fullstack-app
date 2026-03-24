@@ -3,10 +3,12 @@ import { Injectable, Inject } from "@/shared/decorators/tsyringe.decorator";
 import { TransactionRepository } from "@/modules/transactions/domain/ports/transaction.repository";
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
 import { TransactionMapper } from "@/modules/transactions/intraestructure/mappers/transaction.mapper";
+import { TransactionEntity } from "@/modules/transactions/intraestructure/entities/transaction.entity";
 import DynamoDBDataSource from "@/shared/database/dynamodb";
 import {
   PutCommand,
   UpdateCommand,
+  DeleteCommand,
   QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 
@@ -59,6 +61,7 @@ export class TransactionDynamoRepository implements TransactionRepository {
 
     const command = new UpdateCommand({
       TableName: this.tableName,
+      ReturnValues: "ALL_OLD",
       Key: { userId: transaction.userId, id: transaction.id },
       UpdateExpression: `set ${updateExpression}`,
       ExpressionAttributeNames: expressionAttributeNames,
@@ -66,11 +69,26 @@ export class TransactionDynamoRepository implements TransactionRepository {
     });
 
     const client = this.dynamoDb.getConnection();
-    await client.send(command);
+    const output = await client.send(command);
+
+    if (!output.Attributes) {
+      throw new Error("Transaction not found");
+    }
   }
 
-  delete(userId: string, id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(userId: string, id: string): Promise<void> {
+    const command = new DeleteCommand({
+      TableName: this.tableName,
+      ReturnValues: "ALL_OLD",
+      Key: { userId, id },
+    });
+
+    const client = this.dynamoDb.getConnection();
+    const output = await client.send(command);
+
+    if (!output.Attributes) {
+      throw new Error("Transaction not found");
+    }
   }
 
   getById(userId: string, id: string): Promise<TransactionModel | null> {

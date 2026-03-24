@@ -4,6 +4,7 @@ import { TransactionModule } from "@/modules/transactions/transaction.module";
 import { FilterTransactionsService } from "@/modules/transactions/application/service/filter-transactions.service";
 import { CreateTransactionService } from "@/modules/transactions/application/service/create-transaction.service";
 import { UpdateTransactionService } from "@/modules/transactions/application/service/update-transaction.service";
+import { DeleteTransactionService } from "@/modules/transactions/application/service/delete-transaction.service";
 
 let isInitialized = false;
 function ensureInitialized() {
@@ -101,5 +102,27 @@ export const update = async (event: any) => {
   return {
     statusCode: 201,
     body: JSON.stringify({ message: "Transaction updated successfully" }),
+  };
+};
+
+export const remove = async (event: any) => {
+  const id = event.pathParameters?.id;
+  const userId =
+    event.requestContext?.authorizer?.claims?.sub ||
+    event.headers?.["x-user-id"] ||
+    event.pathParameters?.userId;
+
+  const deleteTransactionService = containerProxy.resolve(
+    DeleteTransactionService,
+  );
+
+  await deleteTransactionService.execute({
+    id,
+    userId,
+  });
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Transaction deleted successfully" }),
   };
 };
