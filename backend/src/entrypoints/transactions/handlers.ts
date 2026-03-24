@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import { TransactionModule } from "@/modules/transactions/transaction.module";
 import { FilterTransactionsService } from "@/modules/transactions/application/service/filter-transactions.service";
 import { CreateTransactionService } from "@/modules/transactions/application/service/create-transaction.service";
+import { UpdateTransactionService } from "@/modules/transactions/application/service/update-transaction.service";
 
 let isInitialized = false;
 function ensureInitialized() {
@@ -59,15 +60,46 @@ export const getAll = async (event: any) => {
 
 export const create = async (event: any) => {
   const body = JSON.parse(event.body);
+  const userId =
+    event.requestContext?.authorizer?.claims?.sub ||
+    event.headers?.["x-user-id"] ||
+    event.pathParameters?.userId;
 
   const createTransactionService = containerProxy.resolve(
     CreateTransactionService,
   );
 
-  const id = await createTransactionService.execute(body);
+  const id = await createTransactionService.execute({
+    ...body,
+    userId,
+  });
 
   return {
     statusCode: 201,
     body: JSON.stringify({ message: "Transaction created successfully", id }),
+  };
+};
+
+export const update = async (event: any) => {
+  const id = event.pathParameters?.id;
+  const userId =
+    event.requestContext?.authorizer?.claims?.sub ||
+    event.headers?.["x-user-id"] ||
+    event.pathParameters?.userId;
+  const body = JSON.parse(event.body);
+
+  const updateTransactionService = containerProxy.resolve(
+    UpdateTransactionService,
+  );
+
+  await updateTransactionService.execute({
+    ...body,
+    id,
+    userId,
+  });
+
+  return {
+    statusCode: 201,
+    body: JSON.stringify({ message: "Transaction updated successfully" }),
   };
 };

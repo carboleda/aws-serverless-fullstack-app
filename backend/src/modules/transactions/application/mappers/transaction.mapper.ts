@@ -1,5 +1,6 @@
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
 import { CreateTransactionInputDto } from "@/modules/transactions/application/dtos/create-transaction.dto";
+import { UpdateTransactionInputDto } from "@/modules/transactions/application/dtos/update-transaction.dto";
 import { TransactionDto } from "@/modules/transactions/application/dtos/transactions.dto";
 
 export class TransactionMapper {
@@ -22,6 +23,15 @@ export class TransactionMapper {
       paymentLink: input.paymentLink ?? null,
       notes: input.notes ?? null,
       category: input.category ?? null,
+      createdAt: new Date(input.createdAt),
+    });
+  }
+
+  static fromUpdateDtoToModel(
+    input: UpdateTransactionInputDto,
+  ): TransactionModel {
+    return new TransactionModel({
+      ...input,
       createdAt: new Date(input.createdAt),
     });
   }

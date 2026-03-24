@@ -19,3 +19,10 @@ createTransaction:
     - httpApi:
         path: "/transactions"
         method: "post"
+
+updateTransaction:
+  handler: src/entrypoints/transactions/handlers.update
+  events:
+    - httpApi:
+        path: "/transactions/{id}"
+        method: "patch"

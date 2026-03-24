@@ -6,6 +6,7 @@ import { TransactionMapper } from "@/modules/transactions/intraestructure/mapper
 import DynamoDBDataSource from "@/shared/database/dynamodb";
 import {
   PutCommand,
+  UpdateCommand,
   QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 
@@ -37,8 +38,35 @@ export class TransactionDynamoRepository implements TransactionRepository {
     return id;
   }
 
-  update(transaction: TransactionModel): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(transaction: TransactionModel): Promise<void> {
+    if (!transaction.id) {
+      throw new Error("Transaction ID is required for update");
+    }
+
+    const entity = TransactionMapper.toEntity(transaction);
+    const keys = new Set(["id", "userId"]);
+    const fields = Object.keys(entity).filter((key) => !keys.has(key));
+
+    const updateExpression = fields
+      .map((key) => `#${key} = :${key}`)
+      .join(", ");
+    const expressionAttributeNames = Object.fromEntries(
+      fields.map((key) => [`#${key}`, key]),
+    );
+    const expressionAttributeValues = Object.fromEntries(
+      fields.map((key) => [`:${key}`, entity[key as keyof typeof entity]]),
+    );
+
+    const command = new UpdateCommand({
+      TableName: this.tableName,
+      Key: { userId: transaction.userId, id: transaction.id },
+      UpdateExpression: `set ${updateExpression}`,
+      ExpressionAttributeNames: expressionAttributeNames,
+      ExpressionAttributeValues: expressionAttributeValues,
+    });
+
+    const client = this.dynamoDb.getConnection();
+    await client.send(command);
   }
 
   delete(userId: string, id: string): Promise<void> {
