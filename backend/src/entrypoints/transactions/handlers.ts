@@ -23,18 +23,6 @@ export const containerProxy = new Proxy(container, {
   },
 });
 
-export const get = async (event: any) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      id: 1,
-      amount: 100,
-      description: "Grocery shopping",
-      date: "2024-06-01",
-    }),
-  };
-};
-
 export const getAll = async (event: any) => {
   const userId =
     event.requestContext?.authorizer?.claims?.sub ||

@@ -24,8 +24,6 @@ export class TransactionDynamoRepository implements TransactionRepository {
     const id = randomUUID();
     const entity = TransactionMapper.toEntity(transaction);
 
-    console.log("Creating transaction with ID:", id, "and data:", entity);
-
     const command = new PutCommand({
       TableName: this.tableName,
       Item: {
@@ -89,10 +87,6 @@ export class TransactionDynamoRepository implements TransactionRepository {
     if (!output.Attributes) {
       throw new Error("Transaction not found");
     }
-  }
-
-  getById(userId: string, id: string): Promise<TransactionModel | null> {
-    throw new Error("Method not implemented.");
   }
 
   async getAll(userId: string): Promise<TransactionModel[]> {

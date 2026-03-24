@@ -6,13 +6,6 @@ getAllTransactions:
         path: "/transactions"
         method: "get"
 
-getTransaction:
-  handler: src/entrypoints/transactions/handlers.get
-  events:
-    - httpApi:
-        path: "/transactions/{id}"
-        method: "get"
-
 createTransaction:
   handler: src/entrypoints/transactions/handlers.create
   events:
