@@ -36,4 +36,4 @@ jobs:
       # Step 5: Deploy using Serverless Framework
       - name: Deploy to AWS
         run: npm run deploy:prod
-        working-directory: backend_
+        working-directory: backend
