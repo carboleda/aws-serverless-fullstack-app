@@ -15,6 +15,9 @@ export class DeleteTransactionService {
   ) {}
 
   async execute({ userId, id }: DeleteTransactionInputDto): Promise<void> {
-    await this.transactionRepository.delete(userId, id);
+    const affectedRows = await this.transactionRepository.delete(userId, id);
+    if (affectedRows === 0) {
+      throw new DomainError("Transaction not found", 404);
+    }
   }
 }

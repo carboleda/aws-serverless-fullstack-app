@@ -20,9 +20,6 @@ export class TransactionMapper {
     return new TransactionModel({
       ...input,
       id: null,
-      paymentLink: input.paymentLink ?? null,
-      notes: input.notes ?? null,
-      category: input.category ?? null,
       createdAt: new Date(input.createdAt),
     });
   }

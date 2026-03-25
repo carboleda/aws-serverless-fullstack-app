@@ -10,6 +10,7 @@ import {
 import { CreateTransactionInputDto } from "@/modules/transactions/application/dtos/create-transaction.dto";
 import { Service } from "@/shared/ports/service.interface";
 import { TransactionMapper } from "@/modules/transactions/application/mappers/transaction.mapper";
+import { DomainError } from "@/shared/errors/domain.error";
 
 @Injectable()
 export class CreateTransactionService implements Service<
@@ -27,7 +28,10 @@ export class CreateTransactionService implements Service<
       transaction.type === TransactionType.TRANSFER &&
       !transaction.destinationAccount
     ) {
-      throw new Error("Transfer transactions must have a destinationAccount");
+      throw new DomainError(
+        "Transfer transactions must have a destinationAccount",
+        400,
+      );
     }
 
     const transactionModel =

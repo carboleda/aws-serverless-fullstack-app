@@ -10,6 +10,7 @@ import {
 import { Service } from "@/shared/ports/service.interface";
 import { UpdateTransactionInputDto } from "@/modules/transactions/application/dtos/update-transaction.dto";
 import { TransactionMapper } from "@/modules/transactions/application/mappers/transaction.mapper";
+import { DomainError } from "@/shared/errors/domain.error";
 
 @Injectable()
 export class UpdateTransactionService implements Service<
@@ -27,11 +28,17 @@ export class UpdateTransactionService implements Service<
       transaction.type === TransactionType.TRANSFER &&
       !transaction.destinationAccount
     ) {
-      throw new Error("Transfer transactions must have a destinationAccount");
+      throw new DomainError(
+        "Transfer transactions must have a destinationAccount",
+        400,
+      );
     }
 
     const transactionModel =
       TransactionMapper.fromUpdateDtoToModel(transaction);
-    await this.transactionRepository.update(transactionModel);
+    const affectedRows = await this.transactionRepository.update(transactionModel);
+    if (affectedRows === 0) {
+      throw new DomainError("Transaction not found", 404);
+    }
   }
 }
