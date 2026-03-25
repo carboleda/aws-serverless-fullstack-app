@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "serverless offline start --stage dev",
+    "dev": "serverless offline start --stage dev --reloadHandler",
     "dynamodb:start": "docker compose up",
     "deploy:prod": "serverless deploy --stage prod",
     "undeploy:prod": "serverless remove --stage prod"
