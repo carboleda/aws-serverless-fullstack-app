@@ -10,4 +10,4 @@ role:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - Fn::GetAtt: [UsersTable, Arn]
+        - Fn::GetAtt: [TransactionsTable, Arn]

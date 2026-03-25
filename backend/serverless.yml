@@ -11,15 +11,17 @@ stages:
 
 custom:
   # "dynamodb" is used by the serverless-dynamodb-local plugin to configure DynamoDB Local.
-  dynamodb: ${file(./iac/custom/dynamodb.yml)}
+  dynamodb: ${file(./infra/custom/dynamodb.yml)}
 
 provider:
   name: aws
+  stage: ${opt:stage, "dev"}
+  region: us-east-2
   runtime: nodejs24.x
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
-  iam: ${file(./iac/permissions/iam.yml)}
+  iam: ${file(./infra/permissions/iam.yml)}
   environment:
     TRANSACTIONS_TABLE: ${param:transactionsTableName}
     IS_OFFLINE: ${env:IS_OFFLINE, "false"}
@@ -27,11 +29,11 @@ provider:
     DYNAMODB_LOCAL_ENDPOINT: ${env:DYNAMODB_LOCAL_ENDPOINT, ""}
 
 functions:
-  - ${file(./iac/functions/transactions.yml)}
+  - ${file(./infra/functions/transactions.yml)}
 
 resources:
-  - ${file(./iac/resources/dynamodb.yml)}
-  # - ${file(./iac/resources/cognito.yml)}
+  - ${file(./infra/resources/dynamodb.yml)}
+  # - ${file(./infra/resources/cognito.yml)}
 
 plugins:
   - serverless-dynamodb-local
