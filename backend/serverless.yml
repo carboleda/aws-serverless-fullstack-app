@@ -26,7 +26,8 @@ provider:
     DYNAMODB_LOCAL_REGION: ${env:DYNAMODB_LOCAL_REGION, ""}
     DYNAMODB_LOCAL_ENDPOINT: ${env:DYNAMODB_LOCAL_ENDPOINT, ""}
 
-functions: ${file(./iac/functions.yml)}
+functions:
+  - ${file(./iac/functions/transactions.yml)}
 
 resources:
   - ${file(./iac/resources/dynamodb.yml)}
