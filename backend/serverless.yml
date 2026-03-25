@@ -8,6 +8,9 @@ stages:
   default:
     params:
       transactionsTableName: "transactions-table"
+  dev:
+    params:
+      transactionsTableName: "transactions-table-dev"
 
 custom:
   # "dynamodb" is used by the serverless-dynamodb-local plugin to configure DynamoDB Local.

@@ -3,12 +3,13 @@ name: Deploy Serverless Backend
 on:
   push:
     branches:
-      - main # Trigger deployment on push to the main branch
+      - main
+      - dev
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Deploy
+    environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
 
     steps:
       # Step 1: Checkout the repository
@@ -36,7 +37,7 @@ jobs:
 
       # Step 5: Deploy using Serverless Framework
       - name: Deploy to AWS
-        run: npm run deploy:prod
+        run: npm run deploy:${{ github.ref_name == 'main' && 'prod' || 'dev' }}
         working-directory: backend
         env:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}

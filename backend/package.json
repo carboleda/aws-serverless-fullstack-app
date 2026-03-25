@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "serverless offline start --stage dev --reloadHandler",
     "dynamodb:start": "docker compose up",
+    "deploy:dev": "serverless deploy --stage dev",
+    "undeploy:dev": "serverless remove --stage dev",
     "deploy:prod": "serverless deploy --stage prod",
     "undeploy:prod": "serverless remove --stage prod"
   },
