@@ -3,14 +3,18 @@ import {
   TransactionTypes,
   type Transaction,
 } from "@/features/transactions/types/Tranaction";
-import { Table } from "@heroui/react";
+import { EmptyState, ErrorMessage, Spinner, Table } from "@heroui/react";
 import { formatDate } from "@/utils/date";
 import { TableActions } from "@/features/transactions/components/TableActions";
 import { formatCurrency } from "@/utils/currency";
 import { TransactionTypeIndicator } from "@/features/transactions/components/TransactionTypeIndicator";
+import { GoInbox } from "react-icons/go";
+import classNames from "classnames";
+import { MdError } from "react-icons/md";
 
 interface TransactionProps {
   transactions: Transaction[];
+  loadingError?: Error | null;
   isLoading?: boolean;
   isFetching?: boolean;
 }
@@ -19,6 +23,7 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
   transactions,
   isLoading,
   isFetching,
+  loadingError,
 }) => {
   return (
     <Table>
@@ -41,7 +46,17 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
               Actions
             </Table.Column>
           </Table.Header>
-          <Table.Body>
+          <Table.Body
+            className={classNames({ "animate-pulse opacity-20": isFetching })}
+            renderEmptyState={() => (
+              <EmptyState className="flex h-full w-full flex-col items-center justify-center gap-4 text-center">
+                <EmptyStateContent
+                  isLoading={isLoading}
+                  loadingError={loadingError}
+                />
+              </EmptyState>
+            )}
+          >
             <Table.Collection items={transactions}>
               {(transaction) => (
                 <Table.Row key={transaction.id}>
@@ -69,14 +84,48 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
                 </Table.Row>
               )}
             </Table.Collection>
-            <Table.LoadMore isLoading={isLoading || isFetching}>
+            {/* <Table.LoadMore isLoading={isLoading || isFetching}>
               <Table.LoadMoreContent>
                 {isLoading || isFetching ? "Loading..." : "Load More"}
               </Table.LoadMoreContent>
-            </Table.LoadMore>
+            </Table.LoadMore> */}
           </Table.Body>
         </Table.Content>
       </Table.ScrollContainer>
     </Table>
   );
+};
+
+const EmptyStateContent: React.FC<{
+  isLoading?: boolean;
+  loadingError?: Error | null;
+}> = ({ isLoading, loadingError }) => {
+  if (loadingError) {
+    return (
+      <>
+        <MdError className="size-6 text-muted" />
+        <ErrorMessage className="text-sm">
+          Error loading transactions "{loadingError.message}"
+        </ErrorMessage>
+      </>
+    );
+  }
+
+  if (!isLoading) {
+    return (
+      <>
+        <GoInbox className="size-6 text-muted" />
+        <span className="text-sm text-muted">No transactions found</span>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <Spinner />
+        <span className="text-sm text-muted">Loading...</span>
+      </>
+    );
+  }
 };
