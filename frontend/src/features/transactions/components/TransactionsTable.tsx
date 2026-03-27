@@ -1,13 +1,11 @@
 import type React from "react";
-import { useContext } from "react";
 import {
   TransactionType,
   type Transaction,
 } from "@/features/transactions/types/Tranaction";
-import { Button, Table } from "@heroui/react";
+import { Table } from "@heroui/react";
 import { formatDate } from "@/utils/date";
-import { TransactionContext } from "@/features/transactions/context/TransactionContext";
-import { CiEdit, CiTrash } from "react-icons/ci";
+import { TableActions } from "@/features/transactions/components/TableActions";
 
 interface TransactionProps {
   transactions: Transaction[];
@@ -16,17 +14,10 @@ interface TransactionProps {
 export const TransactionsTable: React.FC<TransactionProps> = ({
   transactions,
 }) => {
-  const context = useContext(TransactionContext);
-
-  const handleEdit = (transaction: Transaction) => {
-    context?.setSelectedTransaction(transaction);
-    context?.dialogState.open();
-  };
-
   return (
     <Table>
       <Table.ScrollContainer>
-        <Table.Content aria-label="Example table">
+        <Table.Content aria-label="Transactions table">
           <Table.Header>
             <Table.Column isRowHeader>Description</Table.Column>
             <Table.Column>Type</Table.Column>
@@ -50,24 +41,7 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
                 <Table.Cell>{transaction.amount}</Table.Cell>
                 <Table.Cell>{formatDate(transaction.createdAt)}</Table.Cell>
                 <Table.Cell>
-                  <div className="flex gap-1">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      aria-label="Edit transaction"
-                      onPress={() => handleEdit(transaction)}
-                    >
-                      <CiEdit className="size-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="danger-soft"
-                      aria-label="Delete transaction"
-                      isDisabled
-                    >
-                      <CiTrash className="size-4" />
-                    </Button>
-                  </div>
+                  <TableActions transaction={transaction} />
                 </Table.Cell>
               </Table.Row>
             ))}

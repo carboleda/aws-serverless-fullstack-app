@@ -4,11 +4,17 @@ import { TranactionDialog } from "@/features/transactions/components/Transaction
 import { TransactionsTable } from "@/features/transactions/components/TransactionsTable";
 import { TransactionProvider } from "@/features/transactions/context/TransactionContext";
 import { Spinner } from "@heroui/react";
+import { DeleteTransactionDialog } from "@/features/transactions/components/DeleteTransactionDialog";
 
 export const Transactions = () => {
-  const { data: transactions = [], isLoading, error } = useGetTransactions();
+  const {
+    data: transactions = [],
+    isLoading,
+    isFetching,
+    error,
+  } = useGetTransactions();
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="flex flex-col items-center gap-2">
         <Spinner color="accent" />
@@ -26,8 +32,8 @@ export const Transactions = () => {
       <TransactionProvider>
         <Header />
         <TransactionsTable transactions={transactions} />
-
         <TranactionDialog />
+        <DeleteTransactionDialog />
       </TransactionProvider>
     </div>
   );
