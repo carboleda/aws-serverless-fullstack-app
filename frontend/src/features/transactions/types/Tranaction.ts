@@ -10,5 +10,9 @@ export interface Transaction {
   category: string;
   type: (typeof TransactionType)[keyof typeof TransactionType];
   sourceAccount: string;
+  createdAt: Date;
+}
+
+export interface TransactionDto extends Omit<Transaction, "createdAt"> {
   createdAt: string;
 }

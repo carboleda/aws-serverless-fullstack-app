@@ -1,9 +1,10 @@
+import type React from "react";
 import {
   TransactionType,
   type Transaction,
 } from "@/features/transactions/types/Tranaction";
 import { Table } from "@heroui/react";
-import type React from "react";
+import { formatDate } from "@/utils/date";
 
 interface TransactionProps {
   transactions: Transaction[];
@@ -36,7 +37,7 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
                 <Table.Cell>{transaction.category}</Table.Cell>
                 <Table.Cell>{transaction.sourceAccount}</Table.Cell>
                 <Table.Cell>{transaction.amount}</Table.Cell>
-                <Table.Cell>{transaction.createdAt}</Table.Cell>
+                <Table.Cell>{formatDate(transaction.createdAt)}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
