@@ -1,6 +1,8 @@
 import { useGetTransactions } from "@/features/transactions/api/useGetTransactions";
 import { Header } from "@/features/transactions/components/Header";
+import { TranactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { TransactionsTable } from "@/features/transactions/components/TransactionsTable";
+import { TransactionProvider } from "@/features/transactions/context/TransactionContext";
 import { Spinner } from "@heroui/react";
 
 export const Transactions = () => {
@@ -21,8 +23,12 @@ export const Transactions = () => {
 
   return (
     <div className="w-full overflow-hidden">
-      <Header />
-      <TransactionsTable transactions={transactions} />
+      <TransactionProvider>
+        <Header />
+        <TransactionsTable transactions={transactions} />
+
+        <TranactionDialog />
+      </TransactionProvider>
     </div>
   );
 };
