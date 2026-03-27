@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type InternalAxiosRequestConfig } from "axios";
 
 // 1. Create the instance with base defaults
 export const api = axios.create({
@@ -8,3 +8,15 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (!config.headers || !config.headers.Authorization) {
+      config.headers["x-user-id"] = import.meta.env.VITE_DUMMY_USER_ID; // FIXME Simulate user ID for authentication
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);

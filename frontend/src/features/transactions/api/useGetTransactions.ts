@@ -8,7 +8,6 @@ export const getTransactions = async (): Promise<Transaction[]> => {
     .get("/transactions", {
       headers: {
         Accept: "application/json",
-        "x-user-id": "123", // FIXME Simulate user ID for authentication
       },
     })
     .then((response) => response.data.map(TransactionMapper.fromDto));
