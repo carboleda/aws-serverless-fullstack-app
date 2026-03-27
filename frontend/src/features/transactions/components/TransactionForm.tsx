@@ -22,25 +22,40 @@ import { HiCurrencyDollar } from "react-icons/hi";
 import { TransactionContext } from "@/features/transactions/context/TransactionContext";
 import { useContext, useState } from "react";
 import { useCreateTransaction } from "@/features/transactions/api/useCreateTransaction";
+import { useUpdateTransaction } from "@/features/transactions/api/useUpdateTransaction";
 
 export const TransactionForm = () => {
   const context = useContext(TransactionContext);
+  const selectedTransaction = context?.selectedTransaction ?? null;
+  const isEditMode = selectedTransaction !== null;
+
   const [selectedTypes, setSelectedTypes] = useState(
-    new Set<Key>([TransactionType.EXPENSE]),
+    new Set<Key>([selectedTransaction?.type ?? TransactionType.EXPENSE]),
   );
-  const { mutate, isPending } = useCreateTransaction();
+  const { mutate: createMutate, isPending: isCreatePending } =
+    useCreateTransaction();
+  const { mutate: updateMutate, isPending: isUpdatePending } =
+    useUpdateTransaction();
+
+  const isPending = isCreatePending || isUpdatePending;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     formData.append("type", [...selectedTypes].at(0) as string);
 
-    mutate(formData, {
-      onSuccess: onCloseDialog,
-    });
+    if (isEditMode) {
+      updateMutate(
+        { id: selectedTransaction.id, formData },
+        { onSuccess: onCloseDialog },
+      );
+    } else {
+      createMutate(formData, { onSuccess: onCloseDialog });
+    }
   };
 
   const onCloseDialog = () => {
+    context?.setSelectedTransaction(null);
     context?.dialogState.close();
   };
 
@@ -54,7 +69,7 @@ export const TransactionForm = () => {
         <Fieldset.Legend className="flex flex-row items-center gap-2 pb-4">
           <HiCurrencyDollar className="size-10 text-warning" />
           <div className="flex flex-col items-start">
-            <div>Transaction</div>
+            <div>{isEditMode ? "Edit Transaction" : "New Transaction"}</div>
             <Description>Fill in the details for this transaction.</Description>
           </div>
         </Fieldset.Legend>
@@ -63,6 +78,7 @@ export const TransactionForm = () => {
           <TextField
             isRequired
             name="description"
+            defaultValue={selectedTransaction?.description}
             validate={(value) =>
               value.trim().length < 3
                 ? "Description must be at least 3 characters"
@@ -77,7 +93,7 @@ export const TransactionForm = () => {
           <NumberField
             isRequired
             name="amount"
-            defaultValue={1}
+            defaultValue={selectedTransaction?.amount ?? 1}
             minValue={0.1}
             step={0.1}
             formatOptions={{
@@ -97,7 +113,11 @@ export const TransactionForm = () => {
             <FieldError />
           </NumberField>
 
-          <TextField isRequired name="category">
+          <TextField
+            isRequired
+            name="category"
+            defaultValue={selectedTransaction?.category}
+          >
             <Label>Category</Label>
             <Input placeholder="e.g. Food, Transport, Salary" />
             <FieldError />
@@ -106,7 +126,9 @@ export const TransactionForm = () => {
           <TextField isRequired name="type" className="flex flex-col gap-1">
             <Label>Type</Label>
             <ToggleButtonGroup
-              defaultSelectedKeys={[TransactionType.EXPENSE]}
+              defaultSelectedKeys={[
+                selectedTransaction?.type ?? TransactionType.EXPENSE,
+              ]}
               selectedKeys={selectedTypes}
               onSelectionChange={setSelectedTypes}
               selectionMode="single"
@@ -131,7 +153,11 @@ export const TransactionForm = () => {
             </ToggleButtonGroup>
           </TextField>
 
-          <TextField isRequired name="sourceAccount">
+          <TextField
+            isRequired
+            name="sourceAccount"
+            defaultValue={selectedTransaction?.sourceAccount}
+          >
             <Label>Source Account</Label>
             <Input placeholder="e.g. Checking, Credit Card, Cash" />
             <FieldError />

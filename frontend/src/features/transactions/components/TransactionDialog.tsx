@@ -14,6 +14,7 @@ export const TranactionDialog = () => {
     >
       <Modal.Container>
         <Modal.Dialog className="sm:max-w-90">
+          <Modal.Heading></Modal.Heading>
           <Modal.Body>
             <TransactionForm />
           </Modal.Body>
