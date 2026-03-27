@@ -13,6 +13,7 @@ export interface Transaction {
   createdAt: Date;
 }
 
-export interface TransactionDto extends Omit<Transaction, "createdAt"> {
+export interface TransactionDto extends Omit<Transaction, "id" | "createdAt"> {
+  id?: string;
   createdAt: string;
 }

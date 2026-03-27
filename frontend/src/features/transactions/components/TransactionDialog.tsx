@@ -10,10 +10,10 @@ export const TranactionDialog = () => {
     <Modal.Backdrop
       isOpen={context?.dialogState.isOpen}
       onOpenChange={context?.dialogState.setOpen}
+      isDismissable={false}
     >
       <Modal.Container>
         <Modal.Dialog className="sm:max-w-90">
-          <Modal.CloseTrigger />
           <Modal.Body>
             <TransactionForm />
           </Modal.Body>
