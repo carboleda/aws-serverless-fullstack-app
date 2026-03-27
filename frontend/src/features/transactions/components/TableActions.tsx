@@ -23,7 +23,7 @@ export const TableActions: React.FC<{ transaction: Transaction }> = ({
     <div className="flex gap-1">
       <Button
         size="sm"
-        variant="ghost"
+        variant="tertiary"
         aria-label="Edit transaction"
         onPress={() => handleEdit()}
       >

@@ -16,7 +16,7 @@ import {
   type Key,
 } from "@heroui/react";
 import { CiFloppyDisk } from "react-icons/ci";
-import { TransactionType } from "../types/Tranaction";
+import { TransactionTypes } from "../types/Tranaction";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { HiCurrencyDollar } from "react-icons/hi";
 import { TransactionContext } from "@/features/transactions/context/TransactionContext";
@@ -30,7 +30,7 @@ export const TransactionForm = () => {
   const isEditMode = selectedTransaction !== null;
 
   const [selectedTypes, setSelectedTypes] = useState(
-    new Set<Key>([selectedTransaction?.type ?? TransactionType.EXPENSE]),
+    new Set<Key>([selectedTransaction?.type ?? TransactionTypes.EXPENSE]),
   );
   const { mutate: createMutate, isPending: isCreatePending } =
     useCreateTransaction();
@@ -127,23 +127,24 @@ export const TransactionForm = () => {
             <Label>Type</Label>
             <ToggleButtonGroup
               defaultSelectedKeys={[
-                selectedTransaction?.type ?? TransactionType.EXPENSE,
+                selectedTransaction?.type ?? TransactionTypes.EXPENSE,
               ]}
               selectedKeys={selectedTypes}
               onSelectionChange={setSelectedTypes}
               selectionMode="single"
               size="sm"
+              disallowEmptySelection={true}
               fullWidth
             >
               <ToggleButton
-                id={TransactionType.INCOME}
+                id={TransactionTypes.INCOME}
                 className="text-success"
               >
                 <FaArrowUp className="size-3 text-success" />
                 Income
               </ToggleButton>
               <ToggleButton
-                id={TransactionType.EXPENSE}
+                id={TransactionTypes.EXPENSE}
                 className="text-danger"
               >
                 <ToggleButtonGroup.Separator />

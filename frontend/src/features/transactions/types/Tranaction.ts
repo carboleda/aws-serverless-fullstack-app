@@ -1,14 +1,17 @@
-export const TransactionType = {
+export const TransactionTypes = {
   INCOME: "income",
   EXPENSE: "expense",
 };
+
+export type TransactionType =
+  (typeof TransactionTypes)[keyof typeof TransactionTypes];
 
 export interface Transaction {
   id: string;
   description: string;
   amount: number;
   category: string;
-  type: (typeof TransactionType)[keyof typeof TransactionType];
+  type: TransactionType;
   sourceAccount: string;
   createdAt: Date;
 }
