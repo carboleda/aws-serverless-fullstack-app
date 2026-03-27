@@ -9,7 +9,6 @@ export class TransactionMapper {
       ...model,
       id: model.id!,
       sourceAccount: model.sourceAccount,
-      destinationAccount: model.destinationAccount,
       createdAt: model.createdAt.toISOString(),
     };
   }

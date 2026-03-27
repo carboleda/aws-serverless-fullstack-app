@@ -10,8 +10,6 @@ Resources:
           AttributeType: S
         - AttributeName: type
           AttributeType: S
-        - AttributeName: status
-          AttributeType: S
         - AttributeName: createdAt
           AttributeType: N
       KeySchema:
@@ -32,8 +30,6 @@ Resources:
           KeySchema:
             - AttributeName: userId
               KeyType: HASH
-            - AttributeName: status
-              KeyType: RANGE
           Projection:
             ProjectionType: ALL
         - IndexName: userIdCreatedAtIndex

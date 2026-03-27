@@ -8,14 +8,12 @@ export class TransactionMapper {
       ...entity,
       id,
       createdAt: new Date(entity.createdAt),
-      isRecurrent: entity.isRecurrent ?? false,
     });
   }
 
   static toEntity(model: TransactionModel): TransactionEntity {
     const raw = {
       ...model,
-      isRecurrent: model.isRecurrent ?? false,
       createdAt: model.createdAt.getTime(),
     };
     return omitUndefined(raw) as TransactionEntity;
