@@ -8,6 +8,7 @@ export function ErrorHandler(): MethodDecorator {
       try {
         return await original(event);
       } catch (err) {
+        console.error("ErrorHandler caught an error:", err);
         if (err instanceof DomainError) {
           return {
             statusCode: err.statusCode,

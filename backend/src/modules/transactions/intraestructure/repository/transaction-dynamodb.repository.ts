@@ -12,10 +12,11 @@ import {
   DeleteCommand,
   QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
+import Envs from "@/shared/helpers/envs";
 
 @Injectable()
 export class TransactionDynamoRepository implements TransactionRepository {
-  private tableName = "transactions-table";
+  private tableName = Envs.TRANSACTIONS_TABLE;
 
   constructor(
     @Inject(DynamoDBDataSource) private dynamoDb: DynamoDBDataSource,
