@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   deploy-backend:
@@ -71,44 +72,36 @@ jobs:
         with:
           node-version: 24
 
-      # Step 3: Resolve Vercel environment flags based on the branch
-      - name: Set Vercel environment flags
-        id: vercel-env
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            echo "environment=production" >> $GITHUB_OUTPUT
-            echo "prod-flag=--prod" >> $GITHUB_OUTPUT
-          else
-            echo "environment=preview" >> $GITHUB_OUTPUT
-            echo "prod-flag=" >> $GITHUB_OUTPUT
-          fi
-
-      # Step 4: Install Vercel CLI
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      # Step 5: Pull Vercel project settings and environment info
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=${{ steps.vercel-env.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+      # Step 3: Build the frontend locally so VITE_API_URL (dynamic output from
+      # the backend job) can be injected at build time. amondnet/vercel-action
+      # deploys the pre-built dist/ folder, so Vercel's own build step is skipped.
+      - name: Build frontend
+        run: npm ci && npm run build
         working-directory: frontend
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      # Step 6: Build the project, injecting the dynamic backend URL captured from the deploy-backend job
-      - name: Build with Vercel
-        run: vercel build ${{ steps.vercel-env.outputs.prod-flag }} --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VITE_API_URL: ${{ needs.deploy-backend.outputs.api-url }}
           VITE_DUMMY_USER_ID: ${{ secrets.VITE_DUMMY_USER_ID }}
 
-      # Step 7: Deploy the pre-built output to Vercel
-      - name: Deploy to Vercel
-        run: vercel deploy --prebuilt ${{ steps.vercel-env.outputs.prod-flag }} --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      # Step 4: Deploy the pre-built output to Vercel.
+      - name: Deploy to Vercel (main)
+        if: github.ref_name == 'main'
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./frontend
+          alias-domains: guru-finance.calabs.dev
+
+      - name: Deploy to Vercel (dev)
+        if: github.ref_name == 'dev'
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          alias-domains: preview.guru-finance.calabs.dev
