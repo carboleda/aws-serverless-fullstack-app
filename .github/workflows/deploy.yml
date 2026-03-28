@@ -94,6 +94,7 @@ jobs:
           vercel-args: '--prod'
           working-directory: ./frontend
           alias-domains: guru-finance.calabs.dev
+          github-comment: false
 
       - name: Deploy to Vercel (dev)
         if: github.ref_name == 'dev'
@@ -105,3 +106,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./frontend
           alias-domains: preview.guru-finance.calabs.dev
+          github-comment: false
