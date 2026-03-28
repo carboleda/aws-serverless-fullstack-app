@@ -1,27 +1,27 @@
 # functions
 getAllTransactions:
-  handler: src/entrypoints/transactions/handlers.getAll
+  handler: src/entrypoints/transactions/get-all.handler
   events:
     - httpApi:
         path: "/transactions"
         method: "get"
 
 createTransaction:
-  handler: src/entrypoints/transactions/handlers.create
+  handler: src/entrypoints/transactions/create.handler
   events:
     - httpApi:
         path: "/transactions"
         method: "post"
 
 updateTransaction:
-  handler: src/entrypoints/transactions/handlers.update
+  handler: src/entrypoints/transactions/update.handler
   events:
     - httpApi:
         path: "/transactions/{id}"
         method: "put"
 
 deleteTransaction:
-  handler: src/entrypoints/transactions/handlers.remove
+  handler: src/entrypoints/transactions/delete.handler
   events:
     - httpApi:
         path: "/transactions/{id}"

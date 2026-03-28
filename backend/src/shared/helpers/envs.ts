@@ -6,6 +6,9 @@ export default class Envs {
     process.env.IS_OFFLINE || "false",
   );
 
+  public static readonly TRANSACTIONS_TABLE: string =
+    process.env.TRANSACTIONS_TABLE || "transactions-table";
+
   public static readonly DYNAMODB_LOCAL_REGION: string =
     process.env.DYNAMODB_LOCAL_REGION || process.env.AWS_DEFAULT_REGION || "";
   public static readonly DYNAMODB_LOCAL_ENDPOINT: string =

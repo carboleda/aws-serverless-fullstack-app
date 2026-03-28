@@ -8,6 +8,9 @@ stages:
   default:
     params:
       transactionsTableName: "transactions-table"
+  dev:
+    params:
+      transactionsTableName: "transactions-table-dev"
 
 custom:
   # "dynamodb" is used by the serverless-dynamodb-local plugin to configure DynamoDB Local.
@@ -21,6 +24,7 @@ provider:
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
+  httpApi: ${file(./infra/resources/httpApi.yml)}
   iam: ${file(./infra/permissions/iam.yml)}
   environment:
     TRANSACTIONS_TABLE: ${param:transactionsTableName}

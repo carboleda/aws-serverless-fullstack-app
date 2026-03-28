@@ -1,5 +1,5 @@
-export const omitNullUndefined = <T extends object>(obj: T): Partial<T> => {
+export const omitUndefined = <T extends object>(obj: T): Partial<T> => {
   return Object.fromEntries(
-    Object.entries(obj).filter(([, v]) => v != null),
+    Object.entries(obj).filter(([, v]) => v !== undefined),
   ) as Partial<T>;
 };

@@ -9,7 +9,6 @@ export class TransactionMapper {
       ...model,
       id: model.id!,
       sourceAccount: model.sourceAccount,
-      destinationAccount: model.destinationAccount,
       createdAt: model.createdAt.toISOString(),
     };
   }
@@ -20,9 +19,6 @@ export class TransactionMapper {
     return new TransactionModel({
       ...input,
       id: null,
-      paymentLink: input.paymentLink ?? null,
-      notes: input.notes ?? null,
-      category: input.category ?? null,
       createdAt: new Date(input.createdAt),
     });
   }

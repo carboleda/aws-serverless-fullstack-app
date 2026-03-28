@@ -2,7 +2,7 @@ import { TransactionModel } from "@/modules/transactions/domain/models/transacti
 
 export interface TransactionRepository {
   create(transaction: TransactionModel): Promise<string>;
-  update(transaction: TransactionModel): Promise<void>;
-  delete(userId: string, id: string): Promise<void>;
+  update(transaction: TransactionModel): Promise<number>;
+  delete(userId: string, id: string): Promise<number>;
   getAll(userId: string): Promise<TransactionModel[]>;
 }
