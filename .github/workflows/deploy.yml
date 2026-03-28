@@ -1,4 +1,4 @@
-name: Deploy Serverless Backend
+name: Fullstack Deployment Workflow
 
 on:
   push:
