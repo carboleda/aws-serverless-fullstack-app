@@ -86,7 +86,10 @@ export const TransactionForm = () => {
             }
           >
             <Label>Description</Label>
-            <Input placeholder="e.g. Grocery shopping" />
+            <Input
+              className="border border-border/60"
+              placeholder="e.g. Grocery shopping"
+            />
             <FieldError />
           </TextField>
 
@@ -105,7 +108,7 @@ export const TransactionForm = () => {
             }}
           >
             <Label>Amount</Label>
-            <NumberField.Group>
+            <NumberField.Group className="border border-border/60">
               <NumberField.DecrementButton />
               <NumberField.Input placeholder="0.00" />
               <NumberField.IncrementButton />
@@ -119,7 +122,10 @@ export const TransactionForm = () => {
             defaultValue={selectedTransaction?.category}
           >
             <Label>Category</Label>
-            <Input placeholder="e.g. Food, Transport, Salary" />
+            <Input
+              className="border border-border/60"
+              placeholder="e.g. Food, Transport, Salary"
+            />
             <FieldError />
           </TextField>
 
@@ -160,7 +166,10 @@ export const TransactionForm = () => {
             defaultValue={selectedTransaction?.sourceAccount}
           >
             <Label>Source Account</Label>
-            <Input placeholder="e.g. Checking, Credit Card, Cash" />
+            <Input
+              className="border border-border/60"
+              placeholder="e.g. Checking, Credit Card, Cash"
+            />
             <FieldError />
           </TextField>
         </FieldGroup>
