@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import {
   PiArrowDownLeftBold,
   PiArrowUpRightBold,
-  PiPlusCircle,
+  PiPlus,
 } from "react-icons/pi";
 
 interface HeaderProps {
@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({ transactions }) => {
           onPress={handleNewTransaction}
           aria-label="New transaction"
         >
-          <PiPlusCircle />
+          <PiPlus className="md:size-10 md:p-1" />
         </Button>
       </div>
     </div>
