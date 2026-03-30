@@ -5,7 +5,7 @@ import { DeleteTransactionService } from "@/modules/transactions/application/ser
 import { FilterTransactionsService } from "@/modules/transactions/application/service/filter-transactions.service";
 import { getRepositoryToken } from "@/shared/decorators/tsyringe.decorator";
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
-import { TransactionDynamoRepository } from "@/modules/transactions/intraestructure/repository/transaction-dynamodb.repository";
+import { TransactionDynamoRepository } from "@/modules/transactions/intrastructure/repository/transaction-dynamodb.repository";
 
 export class TransactionModule {
   static register(): void {
