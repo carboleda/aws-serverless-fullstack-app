@@ -11,8 +11,37 @@ permissions:
   pull-requests: write
 
 jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js with npm cache for both projects
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: '**/package-lock.json'
+
+      # Step 3: Install dependencies for both projects
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      # Step 4: Run typechecks for both projects
+      - name: Run checks
+        run: bash scripts/typechecks.sh
+
   deploy-backend:
     runs-on: ubuntu-latest
+    needs: checks
     environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
     outputs:
       api-url: ${{ steps.get-url.outputs.url }}
@@ -26,11 +55,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 24 # Use the Node.js version your app requires
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: backend
 
       # Step 4: Configure AWS credentials
@@ -79,6 +110,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       # Step 3: Build the frontend locally so VITE_API_URL (dynamic output from
       # the backend job) can be injected at build time. amondnet/vercel-action
