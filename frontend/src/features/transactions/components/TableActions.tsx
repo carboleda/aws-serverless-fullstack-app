@@ -20,7 +20,7 @@ export const TableActions: React.FC<{ transaction: Transaction }> = ({
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex flex-col md:flex-row items-center gap-1">
       <Button
         size="sm"
         variant="tertiary"

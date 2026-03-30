@@ -36,12 +36,16 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
             <Table.Column className="hidden md:table-cell font-bold">
               Type
             </Table.Column>
-            <Table.Column className="font-bold">Category</Table.Column>
+            <Table.Column className="hidden md:table-cell font-bold">
+              Category
+            </Table.Column>
             <Table.Column className="hidden md:table-cell font-bold">
               Source Account
             </Table.Column>
             <Table.Column className="text-end font-bold">Amount</Table.Column>
-            <Table.Column className="font-bold">Date</Table.Column>
+            <Table.Column className="hidden md:table-cell font-bold">
+              Date
+            </Table.Column>
             <Table.Column className="text-center font-bold">
               Actions
             </Table.Column>
@@ -60,7 +64,20 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
             <Table.Collection items={transactions}>
               {(transaction) => (
                 <Table.Row key={transaction.id}>
-                  <Table.Cell>{transaction.description}</Table.Cell>
+                  <Table.Cell>
+                    <span className="hidden md:inline-block">
+                      {transaction.description}
+                    </span>
+                    <div className="flex flex-col items-start gap-0 md:hidden">
+                      <span className="font-bold">
+                        {transaction.description}
+                      </span>
+                      <span className="text-muted">{transaction.category}</span>
+                      <span className="text-muted">
+                        {formatDate(transaction.createdAt)}
+                      </span>
+                    </div>
+                  </Table.Cell>
                   <Table.Cell className="hidden md:table-cell">
                     <TransactionTypeIndicator type={transaction.type}>
                       {transaction.type === TransactionTypes.INCOME
@@ -68,7 +85,9 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
                         : "Expense"}
                     </TransactionTypeIndicator>
                   </Table.Cell>
-                  <Table.Cell>{transaction.category}</Table.Cell>
+                  <Table.Cell className="hidden md:table-cell">
+                    {transaction.category}
+                  </Table.Cell>
                   <Table.Cell className="hidden md:table-cell">
                     {transaction.sourceAccount}
                   </Table.Cell>
@@ -77,7 +96,9 @@ export const TransactionsTable: React.FC<TransactionProps> = ({
                       {formatCurrency(transaction.amount)}
                     </TransactionTypeIndicator>
                   </Table.Cell>
-                  <Table.Cell>{formatDate(transaction.createdAt)}</Table.Cell>
+                  <Table.Cell className="hidden md:table-cell">
+                    {formatDate(transaction.createdAt)}
+                  </Table.Cell>
                   <Table.Cell className="text-center">
                     <TableActions transaction={transaction} />
                   </Table.Cell>

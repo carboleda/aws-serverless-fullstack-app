@@ -164,7 +164,7 @@ export const TransactionForm = () => {
             <FieldError />
           </TextField>
         </FieldGroup>
-        <Fieldset.Actions>
+        <Fieldset.Actions className="justify-end!">
           <Button type="submit" isPending={isPending}>
             {({ isPending }) => (
               <>
