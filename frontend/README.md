@@ -288,6 +288,52 @@ npm run preview
 
 ---
 
+## Testing
+
+The frontend uses **Vitest** with **jsdom** and **React Testing Library**.
+
+### Configuration
+
+The test configuration lives inside `vite.config.ts` under the `test` key:
+
+- Environment: `jsdom` (browser-like DOM)
+- Globals: `true` (no need to import `describe` / `it` / `expect`)
+- Setup file: `src/test/setup.ts` — imports `@testing-library/jest-dom` to extend Vitest's `expect` with DOM matchers
+- CSS processing: disabled in tests
+- Path alias `@/` → `./src/`
+
+### Running tests
+
+```bash
+# Run all tests once
+npm run test
+
+# Watch mode — re-runs on file changes
+npm run test:watch
+
+# Run with coverage report (v8 provider)
+npm run test:coverage
+
+# Run a single file
+npx vitest run src/features/transactions/components/__tests__/TransactionForm.spec.tsx
+
+# Run tests matching a name pattern
+npx vitest run --testNamePattern "should submit form in create mode"
+```
+
+### Test file locations
+
+Tests live next to the components they exercise, in a `__tests__/` subdirectory, using the `.spec.tsx` suffix:
+
+```
+src/features/transactions/
+└── components/
+    └── __tests__/
+        └── TransactionForm.spec.tsx
+```
+
+---
+
 ## Deployment
 
 The frontend is deployed to **Vercel**. In CI/CD, the build is produced locally (so `VITE_API_URL` can be injected from the backend deploy output) and the pre-built `dist/` folder is uploaded to Vercel.

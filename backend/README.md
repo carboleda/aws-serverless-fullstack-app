@@ -237,6 +237,65 @@ There is no build step — TypeScript is transpiled at runtime by Serverless Fra
 
 ---
 
+## Testing
+
+The backend uses **Jest** with **ts-jest** for TypeScript transpilation.
+
+### Configuration
+
+`jest.config.ts` at the project root:
+
+- Preset: `ts-jest`
+- Test environment: `node`
+- Module alias: `@/` → `<rootDir>/src/`
+
+### Running tests
+
+```bash
+# Run all tests
+npm run test
+
+# Run a single test file
+npx jest src/modules/transactions/application/service/__tests__/create-transaction.service.spec.ts
+
+# Run tests matching a name pattern
+npx jest --testNamePattern "should create a transaction"
+
+# Verbose output
+npx jest --verbose
+```
+
+### Test file locations
+
+Tests live next to the code they exercise, in a `__tests__/` subdirectory, using the `.spec.ts` suffix:
+
+```
+src/modules/transactions/
+├── application/
+│   └── service/
+│       └── __tests__/
+│           └── create-transaction.service.spec.ts
+└── fixtures/
+    └── create-transaction-dto.fixture.ts   # shared factory helpers
+```
+
+### Conventions
+
+- **Fixture factories** (`fixtures/`) provide reusable, overridable test data via a `make*` function:
+  ```typescript
+  import { makeCreateTransactionInputDto } from "@/modules/transactions/fixtures/create-transaction-dto.fixture";
+
+  const dto = makeCreateTransactionInputDto({ amount: 100 });
+  ```
+- **Mocking dependencies**: register mock implementations directly on the TSyringe container before constructing the service under test:
+  ```typescript
+  container.register(TRANSACTION_REPOSITORY_TOKEN, { useValue: mockRepository });
+  const service = container.resolve(CreateTransactionService);
+  ```
+- Test files import from `@/` path aliases — the Jest module mapper handles the resolution.
+
+---
+
 ## API Endpoints
 
 Base URL (local): `http://localhost:3000`

@@ -160,6 +160,23 @@ GitHub variable:
 
 ---
 
+## Testing
+
+Both layers have independent test suites. A helper script runs them together.
+
+| Layer | Runner | Command |
+| -------- | ------- | -------------------------------|
+| Backend | Jest | `npm run --prefix backend test` |
+| Frontend | Vitest | `npm run --prefix frontend test` |
+| Both | bash | `bash scripts/run-tests.sh` |
+
+See the individual README files for full details on test structure, configuration, and conventions:
+
+- [Backend testing](./backend/README.md#testing)
+- [Frontend testing](./frontend/README.md#testing)
+
+---
+
 ## Quick Start Commands
 
 ```bash
@@ -174,6 +191,9 @@ npm run --prefix frontend typecheck
 
 # Lint frontend
 npm run --prefix frontend lint
+
+# Tests
+bash scripts/run-tests.sh
 
 # Deploy
 npm run --prefix backend deploy:dev
@@ -190,4 +210,4 @@ npm run --prefix backend undeploy:prod
 - Implement filters and pagination for transaction lists.
 - Add Zod schemas for request validation in Lambda functions.
 - Add more detailed error handling and user feedback on the frontend.
-- Implement unit and e2e tests for both layers.
+- Implement more unit and e2e tests for both layers.
