@@ -1,5 +1,5 @@
 import { TransactionContext } from "@/features/transactions/context/TransactionContext";
-import type { Transaction } from "@/features/transactions/types/Tranaction";
+import type { Transaction } from "@/features/transactions/types/transaction";
 import { Button } from "@heroui/react";
 import { useContext } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
@@ -20,7 +20,7 @@ export const TableActions: React.FC<{ transaction: Transaction }> = ({
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex flex-col md:flex-row items-center gap-1">
       <Button
         size="sm"
         variant="tertiary"

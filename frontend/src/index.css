@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
+@utility bg-overview-gradient {
+  background-image: radial-gradient(at 70% 40%, var(--color-violet-600) 0%, var(--color-violet-900) 35%, #0a0a0f 100%);
+}

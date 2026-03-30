@@ -14,9 +14,9 @@ export const Transactions = () => {
   } = useGetTransactions();
 
   return (
-    <div className="w-full overflow-hidden">
-      <TransactionProvider>
-        <Header />
+    <TransactionProvider>
+      <div className="w-full overflow-hidden flex flex-col gap-2">
+        <Header transactions={transactions} />
         <TransactionsTable
           transactions={transactions}
           loadingError={error}
@@ -25,7 +25,7 @@ export const Transactions = () => {
         />
         <TranactionDialog />
         <DeleteTransactionDialog />
-      </TransactionProvider>
-    </div>
+      </div>
+    </TransactionProvider>
   );
 };

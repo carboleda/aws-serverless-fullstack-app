@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
     "dev": "serverless offline start --stage dev --reloadHandler",
     "dynamodb:start": "docker compose up",
     "deploy:dev": "serverless deploy --stage dev",
@@ -21,8 +23,11 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.161",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
+    "jest": "^30.3.0",
     "serverless-dynamodb-local": "^0.2.40",
-    "serverless-offline": "^14.5.0"
+    "serverless-offline": "^14.5.0",
+    "ts-jest": "^29.4.6"
   }
 }

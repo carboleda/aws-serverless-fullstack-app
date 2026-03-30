@@ -1,10 +1,13 @@
+import { AppHeader } from "@/components/AppHeader";
 import { Transactions } from "@/features/transactions/routes/transactions";
 
 function App() {
   return (
-    <div className="min-h-screen p-4 bg-background text-foreground">
-      <p>Guru Finance</p>
-      <Transactions />
+    <div className="min-h-screen bg-background text-foreground">
+      <AppHeader />
+      <main className="p-4">
+        <Transactions />
+      </main>
     </div>
   );
 }

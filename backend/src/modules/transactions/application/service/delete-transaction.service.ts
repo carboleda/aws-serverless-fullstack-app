@@ -1,9 +1,6 @@
 import type { TransactionRepository } from "@/modules/transactions/domain/ports/transaction.repository";
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
-import {
-  InjectRepository,
-  Injectable,
-} from "@/shared/decorators/tsyringe.decorator";
+import { InjectRepository, Injectable } from "@/shared/decorators/di.decorator";
 import { DomainError } from "@/shared/errors/domain.error";
 import { DeleteTransactionInputDto } from "../dtos/delete-transaction.dto";
 

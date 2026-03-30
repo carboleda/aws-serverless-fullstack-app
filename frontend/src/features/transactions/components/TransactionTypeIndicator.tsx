@@ -1,7 +1,7 @@
 import {
   TransactionTypes,
   type TransactionType,
-} from "@/features/transactions/types/Tranaction";
+} from "@/features/transactions/types/transaction";
 import { Chip } from "@heroui/react";
 import type { PropsWithChildren } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
