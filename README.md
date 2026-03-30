@@ -2,6 +2,8 @@
 
 A full-stack serverless personal finance application for tracking income and expense transactions. Built with React on the frontend and AWS Lambda + DynamoDB on the backend, deployed via Vercel and Serverless Framework.
 
+I really like personal finance matters and wanted to build a simple app to track my transactions and visualize my spending habits. This is a minimal version of another pet project I have called [Zolvent](https://github.com/carboleda/ai-money-tracker).
+
 ![Screenshot of the app](./docs/app-screenshots.png)
 
 ---
@@ -177,3 +179,11 @@ cd backend && npm run deploy:prod
 cd backend && npm run undeploy:dev
 cd backend && npm run undeploy:prod
 ```
+
+## How would I improve on this project?
+
+- Add user authentication (e.g. AWS Cognito) and associate transactions with user accounts.
+- Implement filters and pagination for transaction lists.
+- Add Zod schemas for request validation in Lambda functions.
+- Add more detailed error handling and user feedback on the frontend.
+- Implement unit and e2e tests for both layers.
