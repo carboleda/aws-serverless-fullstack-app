@@ -50,10 +50,10 @@ cd aws-serverless-fullstack-app
 
 ```bash
 # Backend
-cd backend && npm install
+npm install --prefix backend
 
 # Frontend
-cd ../frontend && npm install
+npm install --prefix frontend
 ```
 
 ### 3. Configure environment variables
@@ -81,16 +81,13 @@ The backend requires a local DynamoDB instance (Docker) before starting the dev 
 
 ```bash
 # Terminal 1 — start DynamoDB Local
-cd backend
-npm run dynamodb:start
+npm run --prefix backend dynamodb:start
 
 # Terminal 2 — start Lambda + API Gateway emulation (hot reload)
-cd backend
-npm run dev
+npm run --prefix backend dev
 
 # Terminal 3 — start frontend dev server
-cd frontend
-npm run dev
+npm run --prefix frontend dev
 ```
 
 | Service               | URL                   |
@@ -126,14 +123,21 @@ Branch → stage mapping:
 
 ```bash
 # Backend — deploy to dev
-cd backend && npm run deploy:dev
+npm run --prefix backend deploy:dev
 
 # Backend — deploy to prod
-cd backend && npm run deploy:prod
+npm run --prefix backend deploy:prod
 
 # Frontend — build and deploy via Vercel CLI
-cd frontend && npm run build
-vercel --prod
+npm run --prefix frontend build
+
+# deploy to Vercel preview environment
+npm run --prefix frontend deploy:preview
+
+# or
+
+# deploy to Vercel production environment
+npm run --prefix frontend deploy:prod
 ```
 
 ### Required GitHub secrets
@@ -160,24 +164,24 @@ GitHub variable:
 
 ```bash
 # Local development (after setup)
-cd backend && npm run dynamodb:start   # start DynamoDB Local
-cd backend && npm run dev              # start backend (hot reload)
-cd frontend && npm run dev             # start frontend
+npm run --prefix backend dynamodb:start   # start DynamoDB Local
+npm run --prefix backend dev              # start backend (hot reload)
+npm run --prefix frontend dev             # start frontend
 
 # Type check
-cd backend && npx tsc --noEmit
-cd frontend && npx tsc -b --noEmit
+npm run --prefix backend typecheck
+npm run --prefix frontend typecheck
 
 # Lint frontend
-cd frontend && npm run lint
+npm run --prefix frontend lint
 
 # Deploy
-cd backend && npm run deploy:dev
-cd backend && npm run deploy:prod
+npm run --prefix backend deploy:dev
+npm run --prefix backend deploy:prod
 
 # Tear down
-cd backend && npm run undeploy:dev
-cd backend && npm run undeploy:prod
+npm run --prefix backend undeploy:dev
+npm run --prefix backend undeploy:prod
 ```
 
 ## How would I improve on this project?
