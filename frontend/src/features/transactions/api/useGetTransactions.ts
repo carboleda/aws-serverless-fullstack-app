@@ -1,5 +1,5 @@
 import { TransactionMapper } from "@/features/transactions/api/mappers/transactionMapper";
-import { type Transaction } from "@/features/transactions/types/Tranaction";
+import { type Transaction } from "@/features/transactions/types/transaction";
 import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 

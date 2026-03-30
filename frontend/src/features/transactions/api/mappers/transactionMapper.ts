@@ -1,7 +1,7 @@
 import type {
   Transaction,
   TransactionDto,
-} from "@/features/transactions/types/Tranaction";
+} from "@/features/transactions/types/transaction";
 
 export class TransactionMapper {
   static toDto(transaction: Transaction): TransactionDto {

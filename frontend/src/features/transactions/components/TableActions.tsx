@@ -1,5 +1,5 @@
 import { TransactionContext } from "@/features/transactions/context/TransactionContext";
-import type { Transaction } from "@/features/transactions/types/Tranaction";
+import type { Transaction } from "@/features/transactions/types/transaction";
 import { Button } from "@heroui/react";
 import { useContext } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";

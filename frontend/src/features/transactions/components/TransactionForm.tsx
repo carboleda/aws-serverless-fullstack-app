@@ -16,7 +16,7 @@ import {
   type Key,
 } from "@heroui/react";
 import { CiFloppyDisk } from "react-icons/ci";
-import { TransactionTypes } from "../types/Tranaction";
+import { TransactionTypes } from "../types/transaction";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { HiCurrencyDollar } from "react-icons/hi";
 import { TransactionContext } from "@/features/transactions/context/TransactionContext";

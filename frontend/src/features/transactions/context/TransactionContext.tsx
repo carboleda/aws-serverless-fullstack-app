@@ -1,6 +1,6 @@
 import { useOverlayState, type UseOverlayStateReturn } from "@heroui/react";
 import { createContext, useState } from "react";
-import type { Transaction } from "@/features/transactions/types/Tranaction";
+import type { Transaction } from "@/features/transactions/types/transaction";
 
 interface TransactionContextValue {
   dialogState: UseOverlayStateReturn;

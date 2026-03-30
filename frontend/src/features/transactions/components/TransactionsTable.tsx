@@ -2,7 +2,7 @@ import type React from "react";
 import {
   TransactionTypes,
   type Transaction,
-} from "@/features/transactions/types/Tranaction";
+} from "@/features/transactions/types/transaction";
 import { EmptyState, ErrorMessage, Spinner, Table } from "@heroui/react";
 import { formatDate } from "@/utils/date";
 import { TableActions } from "@/features/transactions/components/TableActions";
