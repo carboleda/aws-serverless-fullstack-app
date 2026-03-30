@@ -1,7 +1,7 @@
 import Envs from "@/shared/helpers/envs";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { Injectable } from "@/shared/decorators/tsyringe.decorator";
+import { Injectable } from "@/shared/decorators/di.decorator";
 
 @Injectable()
 export default class DynamoDBDataSource {

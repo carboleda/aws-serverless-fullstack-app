@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { Injectable, Inject } from "@/shared/decorators/tsyringe.decorator";
+import { Injectable, Inject } from "@/shared/decorators/di.decorator";
 import { TransactionRepository } from "@/modules/transactions/domain/ports/transaction.repository";
 import { TransactionModel } from "@/modules/transactions/domain/models/transaction.model";
 import { TransactionMapper } from "@/modules/transactions/intrastructure/mappers/transaction.mapper";
