@@ -1,6 +1,7 @@
 # httpApi:
 cors:
   allowedOrigins:
+    - http://localhost:5173
     - https://guru-finance.calabs.dev
     - https://preview.guru-finance.calabs.dev
   allowedHeaders:
