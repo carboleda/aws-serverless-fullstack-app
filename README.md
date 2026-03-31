@@ -2,7 +2,7 @@
 
 A full-stack serverless personal finance application for tracking income and expense transactions. Built with React on the frontend and AWS Lambda + DynamoDB on the backend, deployed via Vercel and Serverless Framework.
 
-I really like personal finance matters and wanted to build a simple app to track my transactions and visualize my spending habits. This is a minimal version of another pet project I have called [Zolvent](https://github.com/carboleda/ai-money-tracker).
+I really like personal finance topics and wanted to build a simple app to track transactions and visualize spending habits. This is a minimal version of another pet project I have called [Zolvent](https://github.com/carboleda/ai-money-tracker).
 
 ![Screenshot of the app](./docs/app-screenshots.png)
 

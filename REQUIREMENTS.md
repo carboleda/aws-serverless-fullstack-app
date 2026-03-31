@@ -36,7 +36,7 @@
 
 ✅ 6. A public GitHub repository must be shared with frequent commits
 
-7. A video should be recorded (www.loom.com) of you talking over the application code, IAC, and any additional areas you want to highlight in your solution to demonstrate additional skills
+✅ 7. A video should be recorded (www.loom.com) of you talking over the application code, IAC, and any additional areas you want to highlight in your solution to demonstrate additional skills
 
 Please spend only what you consider a reasonable amount of time for this.
 
@@ -52,6 +52,6 @@ Please feel free to include any of the following to show additional experience:
 
 ✅ 4. Bash/other scripts to support deployment
 
-5. Unit tests, integration tests, load testing, etc
+✅ 5. Unit tests, integration tests, load testing, etc
 
 6. Setup AWS Cognito as part of the backend task and use it for app signup/login. All pages accessible only to authorized users except signup/login
